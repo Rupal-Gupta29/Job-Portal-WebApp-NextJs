@@ -22,16 +22,21 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   ],
   callbacks: {
     authorized: ({ request: { nextUrl }, auth }) => {
+      const publicRoutes = ["/auth/sign-in", "/auth/sign-up"];
+      const protectedRoutes = ["/"];
       const isLoggedIn = !!auth?.user;
       const { pathname } = nextUrl;
-      if (
-        (pathname.startsWith("/auth/sign-in") ||
-          pathname.startsWith("/auth/sign-up")) &&
-        isLoggedIn
-      ) {
-        return Response.redirect(new URL("/", nextUrl));
+      if (publicRoutes.includes(pathname)) {
+        if (isLoggedIn) {
+          return Response.redirect(new URL("/", nextUrl));
+        }
+        return true;
       }
-      return !!auth;
+      if (protectedRoutes.includes(pathname) && !isLoggedIn) {
+        return Response.redirect(new URL("/auth/sign-in", nextUrl));
+      }
+
+      return true;
     },
   },
   pages: {
