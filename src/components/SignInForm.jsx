@@ -16,16 +16,12 @@ const SignInForm = () => {
   } = useForm({
     resolver: zodResolver(loginSchema),
   });
-  // const [globalErrorMsg, setGlobalErrorMsg] = useState("");
+  const [globalErrorMsg, setGlobalErrorMsg] = useState("");
   const router = useRouter();
 
-  // console.log("globalErrorMsg", globalErrorMsg);
-
   const onSubmit = async (data) => {
-    console.log("data coming...", data);
     try {
       const response = await credentialsLoginAction(data);
-      console.log("responsee", response);
       if (response?.success) {
         reset();
         toast.success(response.message);
@@ -39,11 +35,20 @@ const SignInForm = () => {
           });
         });
       }
-      // if (response?.error) {
-      //   setGlobalErrorMsg(response.error);
-      // }
+      if (response?.error) {
+        if (
+          response.error ===
+          "User does not exists. Please register yourself first."
+        ) {
+          toast.error(response.error);
+          router.push("/auth/sign-up");
+          return;
+        }
+        setGlobalErrorMsg(response.error);
+      }
     } catch (error) {
       console.log(error.message);
+      setGlobalErrorMsg("Something went wrong. Please try again later.");
     }
   };
   return (
@@ -86,9 +91,9 @@ const SignInForm = () => {
           </p>
         )}
       </div>
-      {/* {globalErrorMsg && (
+      {globalErrorMsg && (
         <p className="mt-2 text-red-600 text-sm">{globalErrorMsg}</p>
-      )} */}
+      )}
       <button
         type="submit"
         className="w-full text-white bg-violet-600 hover:bg-violet-700 focus:ring-4 focus:outline-none focus:ring-violet-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"

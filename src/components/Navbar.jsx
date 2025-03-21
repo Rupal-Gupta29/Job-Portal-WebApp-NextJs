@@ -4,7 +4,6 @@ import { auth } from "@/auth";
 
 const Navbar = async () => {
   const session = await auth();
-  console.log("sess", session);
   return (
     <nav>
       {/* Navbar for larger devices */}

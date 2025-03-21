@@ -14,29 +14,37 @@ export async function credentialsLoginAction(userData) {
   try {
     const result = loginSchema.safeParse(userData);
     if (!result.success) {
-      let errors = {};
-
-      result.error.issues.forEach((issue) => {
-        errors = { ...errors, [issue.path[0]]: issue.message };
-      });
+      const errors = result.error.issues.reduce((acc, issue) => {
+        acc[issue.path[0]] = issue.message;
+        return acc;
+      }, {});
 
       return {
         success: false,
         errors,
       };
     }
+
+    const findUser = await prisma.user.findUnique({
+      where: { email: userData.email },
+    });
+
+    if (!findUser) {
+      return { error: "User does not exists. Please register yourself first." };
+    }
+
     await signIn("credentials", { ...userData, redirect: false });
     return {
       success: true,
-      message: "User Logged In successfully.",
+      message: "User logged in successfully.",
     };
   } catch (error) {
-    console.log("error aaya", error);
-    // if (error instanceof AuthError) {
-    //   return { error: "Invalid Credentials" };
-    // } else {
-    //   return { error: "An unexpected error occured." };
-    // }
+    console.log("Error occured: ", error.message);
+    if (error instanceof AuthError) {
+      return { error: "Invalid credentials." };
+    } else {
+      return { error: "An unexpected error occured. Please try again later." };
+    }
   }
 }
 
