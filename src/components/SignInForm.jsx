@@ -20,6 +20,7 @@ const SignInForm = () => {
   const router = useRouter();
 
   const onSubmit = async (data) => {
+    setGlobalErrorMsg("");
     try {
       const response = await credentialsLoginAction(data);
       if (response?.success) {

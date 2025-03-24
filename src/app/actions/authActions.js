@@ -5,6 +5,7 @@ import { AuthError } from "next-auth";
 import { signOut } from "@/auth";
 import bcrypt from "bcryptjs";
 import prisma from "@/utils/prisma";
+import { auth } from "@/auth";
 
 export async function logoutAction() {
   await signOut({ redirectTo: "/auth/sign-in" });
@@ -39,7 +40,7 @@ export async function credentialsLoginAction(userData) {
       message: "User logged in successfully.",
     };
   } catch (error) {
-    console.log("Error occured: ", error.message);
+    console.log("Error while logging in: ", error.message);
     if (error instanceof AuthError) {
       return { error: "Invalid credentials." };
     } else {
@@ -81,6 +82,7 @@ export async function registerUserAction(userData) {
       name,
       email,
       password: hashedPassword,
+      role: null,
     };
 
     const newlyCreatedUser = await prisma.user.create({
@@ -96,10 +98,85 @@ export async function registerUserAction(userData) {
 
     return { success: true, message: "User registered successfully." };
   } catch (error) {
-    console.log("Error occured: ", error.message);
+    console.log("Error in registering user: ", error.message);
     return {
       success: false,
       error: "An unexpected error occurred. Please try again later.",
     };
+  }
+}
+
+export async function selectUserRoleAction({ role }) {
+  try {
+    const session = await auth();
+    if (!session?.user?.email) {
+      return {
+        success: false,
+        error: "Unauthorized: No user session found.",
+      };
+    }
+
+    const email = session.user.email;
+
+    const updatedUser = await prisma.user.update({
+      where: { email },
+      data: { role },
+    });
+
+    if (!updatedUser) {
+      return {
+        success: false,
+        error: "Error in updating role.",
+      };
+    }
+
+    return {
+      success: true,
+      message: "Role updated.",
+    };
+  } catch (error) {
+    console.log("Error updating role:", error);
+    return {
+      success: false,
+      error: "Something went wrong.",
+    };
+  }
+}
+
+export async function getUserDetailsAction() {
+  try {
+    if (!session?.user?.email) {
+      return {
+        success: false,
+        error: "Unauthorized: No user session found.",
+      };
+    }
+
+    const email = session.user.email;
+    const user = await prisma.user.findUnique({
+      where: { email },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        createdAt: true,
+      },
+    });
+
+    if (!user) {
+      return {
+        success: false,
+        error: "User not found.",
+      };
+    }
+
+    return {
+      success: true,
+      user,
+    };
+  } catch (error) {
+    console.log("Error in getting user's details: ", error);
+    return { success: false, error: "Something went wrong. Please try again." };
   }
 }

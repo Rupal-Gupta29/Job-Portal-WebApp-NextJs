@@ -20,6 +20,7 @@ const SignUpForm = () => {
   const router = useRouter();
 
   const onSubmit = async (data) => {
+    setGlobalErrorMsg("");
     try {
       const response = await registerUserAction(data);
 

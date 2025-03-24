@@ -4,6 +4,9 @@ import prisma from "./utils/prisma";
 import bcrypt from "bcryptjs";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  session: {
+    strategy: "jwt",
+  },
   providers: [
     Credentials({
       authorize: async (credentials) => {
@@ -37,10 +40,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   ],
   callbacks: {
     authorized: ({ request: { nextUrl }, auth }) => {
+      console.log("authh", auth);
       const publicRoutes = ["/auth/sign-in", "/auth/sign-up"];
-      const protectedRoutes = ["/"];
+      const protectedRoutes = ["/", "/select-role"];
       const isLoggedIn = !!auth?.user;
       const { pathname } = nextUrl;
+
       if (publicRoutes.includes(pathname)) {
         if (isLoggedIn) {
           return Response.redirect(new URL("/", nextUrl));
@@ -50,8 +55,20 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (protectedRoutes.includes(pathname) && !isLoggedIn) {
         return Response.redirect(new URL("/auth/sign-in", nextUrl));
       }
-
+      // if (pathname === "/" && !auth?.user?.role) {
+      //   return Response.redirect(new URL("/select-role", nextUrl));
+      // }
       return true;
+    },
+    jwt({ token, user }) {
+      if (user) {
+        token.role = user.role || null;
+      }
+      return token;
+    },
+    session({ session, token }) {
+      session.user.role = token.role || null;
+      return session;
     },
   },
   pages: {
