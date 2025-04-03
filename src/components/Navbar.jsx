@@ -10,7 +10,7 @@ const Navbar = async () => {
       <div className="flex justify-between py-2 px-6 items-center">
         <div>
           <Link href={"/"} className="text-2xl font-semibold">
-            JobNest
+            Workify
           </Link>
         </div>
         {session && (

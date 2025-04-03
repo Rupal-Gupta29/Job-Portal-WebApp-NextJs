@@ -5,6 +5,7 @@ import { selectUserRoleAction } from "@/app/actions/authActions";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { logoutAction } from "@/app/actions/authActions";
 
 const page = () => {
   const router = useRouter();
@@ -16,13 +17,11 @@ const page = () => {
     setGlobalErrorMsg("");
     try {
       const response = await selectUserRoleAction(data);
-      console.log("responses", response);
       if (!response.success) {
         setGlobalErrorMsg(response.error);
       } else if (response.success) {
         toast.success(response.message);
-        console.log("before router.push");
-        router.push("/");
+        await logoutAction();
       }
     } catch (error) {
       console.log(error);
@@ -44,7 +43,7 @@ const page = () => {
             <input
               type="radio"
               id="recruiter"
-              value="recruiter"
+              value="RECRUITER"
               className="hidden peer"
               {...register("role", { required: true })}
             />
@@ -60,7 +59,7 @@ const page = () => {
             <input
               type="radio"
               id="job-seeker"
-              value="job-seeker"
+              value="JOB_SEEKER"
               className="hidden peer"
               {...register("role", { required: true })}
             />

@@ -55,9 +55,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (protectedRoutes.includes(pathname) && !isLoggedIn) {
         return Response.redirect(new URL("/auth/sign-in", nextUrl));
       }
-      // if (pathname === "/" && !auth?.user?.role) {
-      //   return Response.redirect(new URL("/select-role", nextUrl));
-      // }
+      if (pathname === "/" && !auth?.user?.role) {
+        return Response.redirect(new URL("/select-role", nextUrl));
+      }
+      if (pathname === "/select-role" && auth?.user?.role) {
+        return Response.redirect(new URL("/", nextUrl));
+      }
+      if (pathname === "post-job" && !(auth?.user?.role === "recruiter")) {
+        return Response.redirect(new URL("/", nextUrl));
+      }
       return true;
     },
     jwt({ token, user }) {
