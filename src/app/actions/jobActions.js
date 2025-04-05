@@ -53,3 +53,37 @@ export async function postJobAction(jobData) {
     };
   }
 }
+
+export async function getPostedJobsByRecruiter() {
+  try {
+    const session = await auth();
+    const email = session?.user?.email;
+
+    if (!email) {
+      return { success: false, error: "Unauthorized" };
+    }
+
+    const findRecruiter = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (!findRecruiter) {
+      return { success: false, error: "Recruiter not found." };
+    }
+
+    const recruiterId = findRecruiter.id;
+
+    const jobsPostedByRecruiter = await prisma.jobs.findMany({
+      where: { recruiterId },
+    });
+
+    console.log("jobss posted", jobsPostedByRecruiter);
+    return { success: true, jobs: jobsPostedByRecruiter };
+  } catch (error) {
+    console.log("error in fetching the jobs: ", error);
+    return {
+      success: false,
+      error: "An unexpected error occurred. Please try again later.",
+    };
+  }
+}
