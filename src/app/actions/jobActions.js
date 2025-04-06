@@ -2,6 +2,7 @@
 import { jobSchema } from "@/utils/jobSchema";
 import prisma from "@/utils/prisma";
 import { auth } from "@/auth";
+import { revalidatePath } from "next/cache";
 
 export async function postJobAction(jobData) {
   try {
@@ -46,7 +47,7 @@ export async function postJobAction(jobData) {
 
     return { success: true, message: "Job posted successfully." };
   } catch (error) {
-    console.log("error in posting job: ", error);
+    console.log("Error in posting job: ", error);
     return {
       success: false,
       error: "An unexpected error occurred. Please try again later.",
@@ -77,13 +78,66 @@ export async function getPostedJobsByRecruiter() {
       where: { recruiterId },
     });
 
-    console.log("jobss posted", jobsPostedByRecruiter);
     return { success: true, jobs: jobsPostedByRecruiter };
   } catch (error) {
-    console.log("error in fetching the jobs: ", error);
+    console.log("Error in fetching the jobs: ", error);
     return {
       success: false,
       error: "An unexpected error occurred. Please try again later.",
+    };
+  }
+}
+
+export async function deleteJobAction(jobId) {
+  try {
+    await prisma.jobs.delete({
+      where: { id: jobId },
+    });
+    revalidatePath("/");
+    return { success: true, message: "Job deleted successfully." };
+  } catch (error) {
+    console.log("Error in deleting the job: ", error);
+    return {
+      success: false,
+      error: "Something went wrong, Please try again later.",
+    };
+  }
+}
+
+export async function editJobAction(jobId, updatedDetails) {
+  try {
+    const result = jobSchema.safeParse(updatedDetails);
+    if (!result.success) {
+      const errors = result.error.issues.reduce((acc, issue) => {
+        acc[issue.path[0]] = issue.message;
+        return acc;
+      }, {});
+
+      return {
+        success: false,
+        errors,
+      };
+    }
+    await prisma.jobs.update({
+      where: { id: jobId },
+      data: {
+        jobTitle: updatedDetails.jobTitle,
+        companyName: updatedDetails.companyName,
+        location: updatedDetails.location,
+        salary: updatedDetails.salary,
+        minExperience: updatedDetails.minExperience,
+        jobType: updatedDetails.jobType,
+        jobDescription: updatedDetails.jobDescription,
+        skills: updatedDetails.skills,
+      },
+    });
+    revalidatePath("/");
+    return { success: true, message: "Job details updated successfully." };
+  } catch (error) {
+    console.log("Error in updating the job: ", error);
+    return {
+      success: false,
+      error: "Something went wrong, Please try again later.",
     };
   }
 }

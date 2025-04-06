@@ -3,39 +3,44 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { jobSchema } from "@/utils/jobSchema";
 import { AiFillCloseSquare } from "react-icons/ai";
-import { postJobAction } from "@/app/actions/jobActions";
+import { editJobAction } from "@/app/actions/jobActions";
 import { toast } from "react-toastify";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
-const PostNewJobForm = () => {
+const EditJobForm = ({ jobDetails, setModalIsOpen }) => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    reset,
     setError,
     setValue,
     getValues,
     watch,
   } = useForm({
     resolver: zodResolver(jobSchema),
-    defaultValues: { skills: [] },
+    defaultValues: {
+      jobTitle: jobDetails.jobTitle,
+      companyName: jobDetails.companyName,
+      location: jobDetails.location,
+      salary: jobDetails.salary,
+      minExperience: jobDetails.minExperience,
+      jobType: jobDetails.jobType,
+      jobDescription: jobDetails.jobDescription,
+      skills: jobDetails.skills,
+    },
   });
 
   const skills = watch("skills");
   const [globalErrorMsg, setGlobalErrorMsg] = useState("");
-  const router = useRouter();
 
   const onSubmit = async (data) => {
     setGlobalErrorMsg("");
     try {
-      const response = await postJobAction(data);
+      const response = await editJobAction(jobDetails.id, data);
 
       if (response?.success) {
         toast.success(response.message);
-        reset();
-        router.push("/");
+        setModalIsOpen(false);
         return;
       }
 
@@ -76,9 +81,6 @@ const PostNewJobForm = () => {
 
   return (
     <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl p-8 border border-gray-200">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
-        Post a New Job
-      </h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -247,11 +249,11 @@ const PostNewJobForm = () => {
           disabled={isSubmitting}
           className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
         >
-          {isSubmitting ? "Posting..." : "Post Job"}
+          {isSubmitting ? "Saving..." : "Save"}
         </button>
       </form>
     </div>
   );
 };
 
-export default PostNewJobForm;
+export default EditJobForm;

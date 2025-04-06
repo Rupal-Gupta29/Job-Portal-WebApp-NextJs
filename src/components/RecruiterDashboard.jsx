@@ -4,7 +4,7 @@ import PostedJobs from "./PostedJobs";
 
 const RecruiterDashboard = () => {
   return (
-    <div className="mt-4">
+    <div className="mt-6">
       <div className="flex justify-between px-4">
         <h1 className="text-2xl font-semibold text-gray-800">Jobs Posted</h1>
         <Link
@@ -15,7 +15,7 @@ const RecruiterDashboard = () => {
           Post New Job
         </Link>
       </div>
-      <PostedJobs/>
+      <PostedJobs />
     </div>
   );
 };
