@@ -244,13 +244,23 @@ const EditJobForm = ({ jobDetails, setModalIsOpen }) => {
           <p className="text-red-600 text-sm font-medium">{globalErrorMsg}</p>
         )}
 
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
-        >
-          {isSubmitting ? "Saving..." : "Save"}
-        </button>
+        <div className="flex justify-end gap-4 mt-6">
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
+          >
+            {isSubmitting ? "Saving..." : "Save"}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setModalIsOpen(false)}
+            className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-lg transition-colors"
+          >
+            Cancel
+          </button>
+        </div>
       </form>
     </div>
   );

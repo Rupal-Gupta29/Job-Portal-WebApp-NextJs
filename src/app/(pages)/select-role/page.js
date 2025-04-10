@@ -2,13 +2,11 @@
 
 import { useForm } from "react-hook-form";
 import { selectUserRoleAction } from "@/app/actions/authActions";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { logoutAction } from "@/app/actions/authActions";
 
 const page = () => {
-  const router = useRouter();
   const { register, handleSubmit, watch } = useForm();
   const selectedRole = watch("role");
   const [globalErrorMsg, setGlobalErrorMsg] = useState("");

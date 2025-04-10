@@ -1,7 +1,7 @@
-const JobSeekerDashboard = () => {
-  return (
-    <div>JobSeekerDashboard</div>
-  )
-}
+import JobSeekerLayout from "./JobSeekerLayout";
 
-export default JobSeekerDashboard
+const JobSeekerDashboard = () => {
+  return <JobSeekerLayout>JobSeekerDashboard</JobSeekerLayout>;
+};
+
+export default JobSeekerDashboard;
