@@ -12,7 +12,7 @@ const BasicInfoCard = ({ user }) => {
     <div className="w-full bg-white shadow-md rounded-xl p-4 flex flex-col md:flex-row gap-6">
       <div className="flex-1 space-y-3">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold">{user.name}</h2>
+          <h2 className="text-2xl font-semibold">{user.name}</h2>
           <EditModal>
             <BasicInfoForm user={user} />
           </EditModal>
