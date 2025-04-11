@@ -1,6 +1,7 @@
 import JobSeekerLayout from "@/components/JobSeekerLayout";
 import BasicInfoCard from "@/components/BasicInfoCard";
 import { getUserDetailsAction } from "@/app/actions/userAction";
+import ProfileSummaryCard from "@/components/ProfileSummaryCard";
 
 const getUserDetails = async () => {
   try {
@@ -29,7 +30,10 @@ const page = async () => {
 
   return (
     <JobSeekerLayout>
-      <BasicInfoCard user={user} />
+      <div className="flex flex-col gap-4 items-center w-full max-w-5xl mx-auto px-4">
+        <BasicInfoCard user={user} />
+        <ProfileSummaryCard user={user} />
+      </div>
     </JobSeekerLayout>
   );
 };

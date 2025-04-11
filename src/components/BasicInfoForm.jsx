@@ -4,21 +4,25 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { basicInfoSchema } from "@/utils/userSchema";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
 import { saveUserBasicInfoAction } from "@/app/actions/userAction";
 import { useState } from "react";
 
-const BasicInfoForm = () => {
-  const router = useRouter();
+const BasicInfoForm = ({ user }) => {
   const [globalErrorMsg, setGlobalErrorMsg] = useState("");
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    reset,
   } = useForm({
     resolver: zodResolver(basicInfoSchema),
+    defaultValues: {
+      currentLocation: user.otherDetails.currentLocation || "",
+      experienceLevel: user.otherDetails.experienceLevel || "",
+      country: user.otherDetails.country || "",
+      preferredLocation: user.otherDetails.preferredLocation || "",
+      phone: user.otherDetails.phone || "",
+    },
   });
 
   const onSubmit = async (data) => {
@@ -28,8 +32,6 @@ const BasicInfoForm = () => {
 
       if (response?.success) {
         toast.success(response.message);
-        reset();
-        router.push("/");
         return;
       }
 

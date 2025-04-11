@@ -29,8 +29,8 @@ export const basicInfoSchema = userOtherDetailsSchema.pick({
   phone: true,
 });
 
-export const resumeSummarySchema = userOtherDetailsSchema.pick({
-  resume: true,
+export const profileSummarySchema = userOtherDetailsSchema.pick({
+  // resume: true,
   profileSummary: true,
   keySkills: true,
 });
