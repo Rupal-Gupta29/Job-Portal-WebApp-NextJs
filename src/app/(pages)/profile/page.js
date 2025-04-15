@@ -3,6 +3,7 @@ import BasicInfoCard from "@/components/BasicInfoCard";
 import { getUserDetailsAction } from "@/app/actions/userAction";
 import ProfileSummaryCard from "@/components/ProfileSummaryCard";
 import ContactNLinksCard from "@/components/ContactNLinksCard";
+import PersonalDetailsCard from "@/components/PersonalDetailsCard";
 
 const getUserDetails = async () => {
   try {
@@ -35,6 +36,7 @@ const page = async () => {
         <BasicInfoCard user={user} />
         <ProfileSummaryCard user={user} />
         <ContactNLinksCard user={user} />
+        <PersonalDetailsCard user={user} />
       </div>
     </JobSeekerLayout>
   );

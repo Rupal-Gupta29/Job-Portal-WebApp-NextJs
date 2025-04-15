@@ -14,7 +14,7 @@ export const userOtherDetailsSchema = z.object({
   github: z.string().url("Invalid GitHub URL"),
   preferredLocation: z.string(),
   gender: z.enum(["Male", "Female", "Other"]),
-  dob: z.date(),
+  dob: z.string(),
   permanentAddress: z.string().min(5, "Address too short"),
   languageSpoken: z
     .array(z.string().min(1, "Language cannot be empty"))
@@ -36,8 +36,8 @@ export const profileSummarySchema = userOtherDetailsSchema.pick({
 });
 
 export const personalDetailsSchema = userOtherDetailsSchema.pick({
-  dob: true,
   gender: true,
+  dob: true,
   permanentAddress: true,
   languageSpoken: true,
 });
