@@ -1,26 +1,9 @@
-"use client";
 import { IoPeopleSharp } from "react-icons/io5";
-import { RiDeleteBin5Line } from "react-icons/ri";
-import { deleteJobAction } from "@/app/actions/jobActions";
-import { toast } from "react-toastify";
-import EditJobModal from "./EditJobModal";
+import { FaEye, FaPaperPlane } from "react-icons/fa";
+import Link from "next/link";
 import { formatJobType } from "@/utils/utilityMethods";
 
-const RecruiterJobCard = ({ job }) => {
-  const handleDeleteJob = async () => {
-    try {
-      let result = await deleteJobAction(job.id);
-      if (result?.error) {
-        toast.error(result.error);
-        return;
-      }
-      toast.success(result.message);
-      return;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+const SeekerJobCard = ({ job }) => {
   return (
     <div className="bg-white shadow-md rounded-xl border border-gray-200 p-6 w-full max-w-2xl mx-auto space-y-4">
       <div>
@@ -38,7 +21,7 @@ const RecruiterJobCard = ({ job }) => {
           {job.minExperience} years
         </span>
         <span className="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-medium">
-          {job.salary} lpa
+          {job.salary} LPA
         </span>
       </div>
 
@@ -57,8 +40,8 @@ const RecruiterJobCard = ({ job }) => {
         <div className="flex flex-wrap gap-2">
           {job.skills.map((skill) => (
             <span
-              className="bg-gray-100 text-gray-800 px-2 py-1 rounded text-sm"
               key={skill}
+              className="bg-gray-100 text-gray-800 px-2 py-1 rounded text-sm"
             >
               {skill}
             </span>
@@ -68,21 +51,24 @@ const RecruiterJobCard = ({ job }) => {
 
       <div className="flex items-center gap-2 text-sm text-gray-700 mt-2">
         <IoPeopleSharp className="text-lg text-blue-600" />
-        <span>8 applicants</span>
+        <span>12 applicants</span>
       </div>
 
       <div className="flex gap-4 mt-2">
-        <EditJobModal jobDetails={job} />
-        <button
-          className="flex items-center gap-1 px-4 py-2 text-sm shadow-sm rounded-md border border-gray-200 hover:shadow-md transition cursor-pointer"
-          onClick={handleDeleteJob}
-        >
-          <RiDeleteBin5Line className="text-base text-red-500" />
-          Delete
+        <button className="flex items-center gap-2 px-4 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+          <FaPaperPlane />
+          Apply Now
         </button>
+        <Link
+          href={`/job/${job.id}`}
+          className="flex items-center gap-2 px-4 py-2 text-sm border border-gray-300 rounded-md hover:shadow-sm transition"
+        >
+          <FaEye />
+          View Details
+        </Link>
       </div>
     </div>
   );
 };
 
-export default RecruiterJobCard;
+export default SeekerJobCard;

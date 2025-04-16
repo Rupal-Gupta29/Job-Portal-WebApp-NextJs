@@ -1,7 +1,12 @@
 import JobSeekerLayout from "./JobSeekerLayout";
+import AllJobsforSeekers from "./AllJobsforSeekers";
 
 const JobSeekerDashboard = () => {
-  return <JobSeekerLayout>JobSeekerDashboard</JobSeekerLayout>;
+  return (
+    <JobSeekerLayout>
+      <AllJobsforSeekers />
+    </JobSeekerLayout>
+  );
 };
 
 export default JobSeekerDashboard;

@@ -6,7 +6,6 @@ import EditModal from "./EditModal";
 import BasicInfoForm from "./BasicInfoForm";
 
 const BasicInfoCard = ({ user }) => {
-  console.log("useerr", user);
 
   return (
     <div className="w-full bg-white shadow-md rounded-xl p-4 flex flex-col md:flex-row gap-6">

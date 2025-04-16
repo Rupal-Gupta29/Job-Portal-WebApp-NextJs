@@ -1,9 +1,9 @@
-import { getPostedJobsByRecruiter } from "@/app/actions/jobActions";
-import RecruiterJobCard from "./RecruiterJobCard";
+import { getAllJobsForSeekersAction } from "@/app/actions/jobActions";
+import SeekerJobCard from "./SeekerJobCard";
 
-const getJobs = async () => {
+const getAllJobs = async () => {
   try {
-    const result = await getPostedJobsByRecruiter();
+    const result = await getAllJobsForSeekersAction();
     if (result.error) {
       return { error: result.error };
     }
@@ -13,8 +13,8 @@ const getJobs = async () => {
   }
 };
 
-const PostedJobs = async () => {
-  const { error, jobs } = await getJobs();
+const AllJobsforSeekers = async () => {
+  const { error, jobs } = await getAllJobs();
 
   if (error) {
     return (
@@ -31,14 +31,13 @@ const PostedJobs = async () => {
       </div>
     );
   }
-
   return (
     <div className="grid grid-cols-3 gap-4 px-6 mt-6">
       {jobs.map((job) => (
-        <RecruiterJobCard job={job} key={job.id} />
+        <SeekerJobCard job={job} key={job.id} />
       ))}
     </div>
   );
 };
 
-export default PostedJobs;
+export default AllJobsforSeekers;

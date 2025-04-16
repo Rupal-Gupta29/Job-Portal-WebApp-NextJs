@@ -141,3 +141,31 @@ export async function editJobAction(jobId, updatedDetails) {
     };
   }
 }
+
+export async function getAllJobsForSeekersAction() {
+  try {
+    const jobs = await prisma.jobs.findMany();
+    return { success: true, message: "Jobs fetched successfully.", jobs };
+  } catch (error) {
+    console.log("Error in fetching the jobs: ", error);
+    return {
+      success: false,
+      error: "Something went wrong, Please try again later.",
+    };
+  }
+}
+
+export async function getJobDetailsById(jobId) {
+  try {
+    const job = await prisma.jobs.findUnique({
+      where: { id: jobId },
+    });
+    return { success: true, message: "Job details fetched successfully.", job };
+  } catch (error) {
+    console.log("Error in fetching the job: ", error);
+    return {
+      success: false,
+      error: "Something went wrong, Please try again later.",
+    };
+  }
+}

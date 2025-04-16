@@ -132,7 +132,7 @@ export async function selectUserRoleAction({ role }) {
 
     return {
       success: true,
-      message: "Role updated.",
+      message: "Role updated. Please login again.",
     };
   } catch (error) {
     console.log("Error updating role:", error);
