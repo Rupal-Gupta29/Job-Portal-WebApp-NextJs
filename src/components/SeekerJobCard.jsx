@@ -1,7 +1,9 @@
 import { IoPeopleSharp } from "react-icons/io5";
-import { FaEye, FaPaperPlane } from "react-icons/fa";
+import { FaEye } from "react-icons/fa";
 import Link from "next/link";
 import { formatJobType } from "@/utils/utilityMethods";
+import ApplyNowBtn from "./ApplyNowBtn";
+import { jobToApply } from "@/app/actions/jobActions";
 
 const SeekerJobCard = ({ job }) => {
   return (
@@ -55,10 +57,10 @@ const SeekerJobCard = ({ job }) => {
       </div>
 
       <div className="flex gap-4 mt-2">
-        <button className="flex items-center gap-2 px-4 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
-          <FaPaperPlane />
-          Apply Now
-        </button>
+        <ApplyNowBtn
+          jobId={job.id}
+          jobToApply={jobToApply}
+        />
         <Link
           href={`/job/${job.id}`}
           className="flex items-center gap-2 px-4 py-2 text-sm border border-gray-300 rounded-md hover:shadow-sm transition"

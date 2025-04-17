@@ -13,18 +13,24 @@ enum UserRole {
 }
 
 model User {
-  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  id              String       @id @default(auto()) @map("_id") @db.ObjectId
   name            String?
-  email           String    @unique
+  email           String       @unique
   emailVerified   DateTime?
   image           String?
   password        String?
   role            UserRole?
-  isEmailVerified Boolean   @default(false)
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  isEmailVerified Boolean      @default(false)
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
   jobs            Jobs[]
   otherDetails    Json?
+  appliedJobs     AppliedJob[]
+}
+
+type AppliedJob {
+  jobId  String
+  status String
 }
 
 enum JobType {
@@ -47,4 +53,5 @@ model Jobs {
   updatedAt      DateTime @updatedAt
   recruiterId    String   @db.ObjectId
   recruiter      User     @relation(fields: [recruiterId], references: [id], onDelete: Cascade)
+  applicants     String[] @default([])
 }

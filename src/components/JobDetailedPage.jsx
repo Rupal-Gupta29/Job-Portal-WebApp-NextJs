@@ -6,6 +6,8 @@ import {
 } from "react-icons/fa";
 import { IoPeopleSharp } from "react-icons/io5";
 import { formatJobType } from "@/utils/utilityMethods";
+import ApplyNowBtn from "./ApplyNowBtn";
+import { jobToApply } from "@/app/actions/jobActions";
 
 const JobDetailedPage = ({ job }) => {
   return (
@@ -61,9 +63,10 @@ const JobDetailedPage = ({ job }) => {
       </section>
 
       <section className="mt-10 flex gap-4">
-        <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md text-sm transition">
-          Apply Now
-        </button>
+        <ApplyNowBtn
+          jobId={job.id}
+          jobToApply={jobToApply}
+        />
         <button className="border border-gray-300 px-6 py-2 rounded-md text-sm hover:shadow">
           Save Job
         </button>

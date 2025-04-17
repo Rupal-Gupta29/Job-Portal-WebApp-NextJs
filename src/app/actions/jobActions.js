@@ -169,3 +169,40 @@ export async function getJobDetailsById(jobId) {
     };
   }
 }
+
+export async function jobToApply(jobId) {
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    return { success: false, error: "Unauthorized" };
+  }
+
+  try {
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        appliedJobs: {
+          push: { jobId, status: "Applied" },
+        },
+      },
+    });
+
+    await prisma.jobs.update({
+      where: { id: jobId },
+      data: {
+        applicants: {
+          push: userId,
+        },
+      },
+    });
+
+    return { success: true, message: "Job applied successfully." };
+  } catch (error) {
+    console.log("Error in applying for the job: ", error);
+    return {
+      success: false,
+      error: "Something went wrong, Please try again later.",
+    };
+  }
+}
