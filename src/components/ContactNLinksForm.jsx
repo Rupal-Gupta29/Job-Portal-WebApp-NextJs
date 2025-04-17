@@ -17,8 +17,8 @@ const ContactNLinksForm = ({user}) => {
   } = useForm({
     resolver: zodResolver(linksSchema),
     defaultValues: {
-      github: user.otherDetails.github || "",
-      linkedIn: user.otherDetails.linkedIn || "",
+      github: user.otherDetails?.github || "",
+      linkedIn: user.otherDetails?.linkedIn || "",
     },
   });
 

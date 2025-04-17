@@ -17,11 +17,11 @@ const BasicInfoForm = ({ user }) => {
   } = useForm({
     resolver: zodResolver(basicInfoSchema),
     defaultValues: {
-      currentLocation: user.otherDetails.currentLocation || "",
-      experienceLevel: user.otherDetails.experienceLevel || "",
-      country: user.otherDetails.country || "",
-      preferredLocation: user.otherDetails.preferredLocation || "",
-      phone: user.otherDetails.phone || "",
+      currentLocation: user.otherDetails?.currentLocation || "",
+      experienceLevel: user.otherDetails?.experienceLevel || "",
+      country: user.otherDetails?.country || "",
+      preferredLocation: user.otherDetails?.preferredLocation || "",
+      phone: user.otherDetails?.phone || "",
     },
   });
 

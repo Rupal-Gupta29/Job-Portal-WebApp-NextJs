@@ -22,10 +22,10 @@ const PersonalDetailsForm = ({ user }) => {
   } = useForm({
     resolver: zodResolver(personalDetailsSchema),
     defaultValues: {
-      gender: user.otherDetails.gender || "",
-      dob: user.otherDetails.dob || "",
-      permanentAddress: user.otherDetails.permanentAddress || "",
-      languageSpoken: user.otherDetails.languageSpoken || [],
+      gender: user.otherDetails?.gender || "",
+      dob: user.otherDetails?.dob || "",
+      permanentAddress: user.otherDetails?.permanentAddress || "",
+      languageSpoken: user.otherDetails?.languageSpoken || [],
     },
   });
 
@@ -180,6 +180,10 @@ const PersonalDetailsForm = ({ user }) => {
             </p>
           )}
         </div>
+
+        {globalErrorMsg && (
+          <p className="text-red-600 text-sm font-medium">{globalErrorMsg}</p>
+        )}
 
         <div className="md:col-span-2">
           <button

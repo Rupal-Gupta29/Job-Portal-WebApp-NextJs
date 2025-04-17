@@ -22,8 +22,8 @@ const ProfileSummaryForm = ({ user }) => {
   } = useForm({
     resolver: zodResolver(profileSummarySchema),
     defaultValues: {
-      profileSummary: user.otherDetails.profileSummary || "",
-      keySkills: user.otherDetails.keySkills || [],
+      profileSummary: user.otherDetails?.profileSummary || "",
+      keySkills: user.otherDetails?.keySkills || [],
     },
   });
 
