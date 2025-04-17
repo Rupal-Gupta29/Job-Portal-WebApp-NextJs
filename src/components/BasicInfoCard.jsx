@@ -26,16 +26,16 @@ const BasicInfoCard = ({ user }) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 text-gray-700 mt-4 text-sm">
           <div className="flex items-center gap-2">
             <FiMapPin />
-            {user.otherDetails.currentLocation || "Location"},{" "}
-            {user.otherDetails.country.toUpperCase() || "Country"}
+            {user.otherDetails?.currentLocation || "Location"},{" "}
+            {user.otherDetails?.country.toUpperCase() || "Country"}
           </div>
           <div className="flex items-center gap-2">
             <FiPhone />
-            {user.otherDetails.phone || "Phone"}
+            {user.otherDetails?.phone || "Phone"}
           </div>
           <div className="flex items-center gap-2">
             <PiGraduationCapDuotone />{" "}
-            {user.otherDetails.experienceLevel || "Experience Level"}
+            {user.otherDetails?.experienceLevel || "Experience Level"}
           </div>
           <div className="flex items-center gap-2">
             <FiMail />
@@ -45,7 +45,7 @@ const BasicInfoCard = ({ user }) => {
           <div className="flex items-center gap-2">
             <GrLocationPin />
             <span>Preference: </span>
-            {user.otherDetails.preferredLocation || "Preferred Location"}
+            {user.otherDetails?.preferredLocation || "Preferred Location"}
           </div>
         </div>
       </div>

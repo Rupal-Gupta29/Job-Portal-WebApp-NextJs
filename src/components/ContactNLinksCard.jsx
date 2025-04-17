@@ -15,24 +15,24 @@ const ContactNLinksCard = ({ user }) => {
 
       <div className="flex gap-6 text-blue-600 text-sm items-center">
         <Link
-          href={user.otherDetails.github || "#"}
+          href={user.otherDetails?.github || "#"}
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2 hover:underline"
         >
           <FaGithub className="text-xl text-gray-700" />
-          {user.otherDetails.github || "github.com/yourusername"}
+          {user.otherDetails?.github || "github.com/yourusername"}
         </Link>
 
         <Link
-          href={user.otherDetails.linkedIn || "#"}
+          href={user.otherDetails?.linkedIn || "#"}
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2 hover:underline"
     
         >
           <FaLinkedin className="text-xl text-blue-700" />
-          {user.otherDetails.linkedIn || "linkedin.com/in/yourusername"}
+          {user.otherDetails?.linkedIn || "linkedin.com/in/yourusername"}
         </Link>
       </div>
     </div>

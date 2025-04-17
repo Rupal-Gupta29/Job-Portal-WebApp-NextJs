@@ -21,7 +21,7 @@ const PersonalDetailsCard = ({ user }) => {
         <div className="flex items-center gap-2">
           <FaCalendarAlt className="text-gray-500" />
           <span>
-            <strong>DOB:</strong> {user.otherDetails.dob || "Your DOB here"}
+            <strong>DOB:</strong> {user.otherDetails?.dob || "Your DOB here"}
           </span>
         </div>
 
@@ -29,7 +29,7 @@ const PersonalDetailsCard = ({ user }) => {
           <FaVenusMars className="text-gray-500" />
           <span>
             <strong>Gender:</strong>{" "}
-            {user.otherDetails.gender || "Choose your gender"}
+            {user.otherDetails?.gender || "Choose your gender"}
           </span>
         </div>
 
@@ -37,7 +37,7 @@ const PersonalDetailsCard = ({ user }) => {
           <FaMapMarkerAlt className="text-gray-500" />
           <span>
             <strong>Address:</strong>{" "}
-            {user.otherDetails.permanentAddress || "Add your permanent address"}
+            {user.otherDetails?.permanentAddress || "Add your permanent address"}
           </span>
         </div>
 
@@ -45,8 +45,8 @@ const PersonalDetailsCard = ({ user }) => {
           <FaGlobe className="text-gray-500" />
           <span>
             <strong>Languages:</strong>{" "}
-            {user.otherDetails.languageSpoken &&
-            user.otherDetails.languageSpoken.length > 0
+            {user.otherDetails?.languageSpoken &&
+            user.otherDetails?.languageSpoken.length > 0
               ? user.otherDetails.languageSpoken.map((language) => (
                   <span
                     className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-xs font-medium"

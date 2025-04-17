@@ -19,7 +19,7 @@ const ProfileSummaryCard = ({ user }) => {
           Profile Summary
         </p>
         <p className="text-sm text-gray-800">
-          {user.otherDetails.profileSummary || "Write summary here..."}
+          {user.otherDetails?.profileSummary || "Write summary here..."}
         </p>
       </div>
 
@@ -27,9 +27,9 @@ const ProfileSummaryCard = ({ user }) => {
       <div className="mb-4">
         <p className="text-sm text-gray-600 font-medium mb-1">Skills</p>
         <div className="flex flex-wrap gap-2">
-          {user.otherDetails.keySkills &&
-          user.otherDetails.keySkills.length > 0 ? (
-            user.otherDetails.keySkills.map((skill) => (
+          {user.otherDetails?.keySkills &&
+          user.otherDetails?.keySkills.length > 0 ? (
+            user.otherDetails?.keySkills.map((skill) => (
               <span
                 className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-xs font-medium"
                 key={skill}
